@@ -6,9 +6,11 @@ import { fileURLToPath } from 'url';
 import User from '../models/User.js';
 import Transaction from '../models/Transaction.js';
 
-try {
-  dns.setServers(['8.8.8.8', '8.8.4.4']);
-} catch (e) {}
+if (process.platform === 'win32') {
+  try {
+    dns.setServers(['8.8.8.8', '8.8.4.4']);
+  } catch (e) {}
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

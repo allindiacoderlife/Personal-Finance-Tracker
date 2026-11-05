@@ -1,5 +1,6 @@
 {
-  "version": 2,
+  "framework": "vite",
+  "buildCommand": "node build.js",
   "outputDirectory": "client/dist",
   "rewrites": [
     {

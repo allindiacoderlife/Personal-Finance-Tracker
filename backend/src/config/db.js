@@ -2,10 +2,12 @@ import mongoose from 'mongoose';
 import dns from 'dns';
 
 // Fix for Node.js on Windows with querySrv ECONNREFUSED for MongoDB Atlas
-try {
-  dns.setServers(['8.8.8.8', '8.8.4.4']);
-} catch (e) {
-  // Ignore in environments where setting DNS servers is restricted
+if (process.platform === 'win32') {
+  try {
+    dns.setServers(['8.8.8.8', '8.8.4.4']);
+  } catch (e) {
+    // Ignore in environments where setting DNS servers is restricted
+  }
 }
 
 const connectDB = async () => {

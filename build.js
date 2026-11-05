@@ -12,3 +12,4 @@ if (fs.existsSync('./client')) {
 }
 
 console.log('✅ Build completed successfully!');
+

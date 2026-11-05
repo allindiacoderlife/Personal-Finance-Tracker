@@ -143,14 +143,36 @@ Visit **http://localhost:5173** in your browser. Use the **Auto Fill** demo butt
 
 ## 🌐 Deployment Instructions
 
-### Frontend (Vercel)
-1. Push project to GitHub.
-2. Import the `client/` directory into Vercel.
-3. Add environment variable: `VITE_API_URL=https://<your-deployed-backend-url>/api`.
-4. Deploy (Vercel automatically applies `vercel.json` rewrites for SPA routing).
+### Option 1: 1-Click Full-Stack Deployment on Vercel (Recommended)
+This repository is pre-configured with a root `vercel.json` and `api/index.js` serverless function handler. Both the React frontend and Express backend can run directly on Vercel!
 
-### Backend (Render or Railway)
-1. In Render, select **New Web Service** and point to the repository with root directory `backend`.
+1. Push your code to GitHub:
+   ```bash
+   git push origin main
+   ```
+2. In the [Vercel Dashboard](https://vercel.com/new), click **"Add New Project"** and import your `Personal-Finance-Tracker` GitHub repository.
+3. Keep the **Root Directory** as `./` (default).
+4. Under **Environment Variables**, add:
+   * `MONGO_URI`: `mongodb+srv://...` (your MongoDB Atlas connection string)
+   * `JWT_SECRET`: your secure JWT secret string
+   * `NODE_ENV`: `production`
+5. Click **Deploy**. Vercel will:
+   * Build the React frontend into `client/dist`.
+   * Deploy the Express API as a serverless function at `/api/*`.
+
+---
+
+### Option 2: Frontend on Vercel + Backend on Render/Railway
+If you prefer running your Node.js backend on a dedicated server (e.g. Render or Railway):
+
+#### Frontend (Vercel)
+1. In Vercel, set the **Root Directory** to `client`.
+2. Add environment variable:
+   * `VITE_API_URL`: `https://<your-deployed-backend-url>/api`
+3. Click **Deploy**.
+
+#### Backend (Render / Railway)
+1. In Render, select **New Web Service** and set the Root Directory to `backend`.
 2. Build command: `npm install`
 3. Start command: `npm start`
 4. Set environment variables: `MONGO_URI`, `JWT_SECRET`, `NODE_ENV=production`, `PORT=5000`.

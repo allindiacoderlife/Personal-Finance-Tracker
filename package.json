@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "cd client && npm install && npm run build",
+    "build": "node build.js",
     "client": "npm run dev --prefix client",
     "server": "npm run dev --prefix backend",
     "seed": "npm run seed --prefix backend"

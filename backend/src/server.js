@@ -33,6 +33,18 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(morgan('dev'));
 }
 
+// Restore original URL path if Vercel serverless rewrote req.url internally
+app.use((req, res, next) => {
+  if (req.headers['x-matched-path']) {
+    req.url = req.headers['x-matched-path'];
+  } else if (req.url.startsWith('/src/server.js')) {
+    req.url = req.url.replace('/src/server.js', '') || '/';
+  } else if (req.url.startsWith('/api/index.js')) {
+    req.url = req.url.replace('/api/index.js', '') || '/';
+  }
+  next();
+});
+
 // Root health check endpoint
 app.get('/', (req, res) => {
   res.json({
@@ -51,9 +63,20 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Mount Routes
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Personal Finance Tracker API is running smoothly',
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// Mount Routes (support both /api/* and direct /* paths)
 app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
+
 app.use('/api/transactions', transactionRoutes);
+app.use('/transactions', transactionRoutes);
 
 // Error Handling Middleware
 app.use(notFound);
